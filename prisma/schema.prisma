@@ -18,6 +18,35 @@ model User {
   mobile String
   password String
   isAdmin Boolean
+  tours Tour[]
 
   createdAt DateTime @default(now())
+}
+
+model Tour {
+  id Int @id @default(autoincrement())
+  slug String
+  title String
+  body String
+  checkIn DateTime
+  checkOut DateTime
+  guests Int
+  pricePerNight Float
+  feauturedImage String
+  gallery Gallery[]
+
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+
+  createdAt DateTime @default(now())
+
+}
+
+model Gallery {
+  id Int @id @default(autoincrement())
+  image String
+  title String
+
+  tour Tour @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId Int
 }
