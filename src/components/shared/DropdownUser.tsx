@@ -13,7 +13,11 @@ import Image from "next/image";
 import Link from "next/link";
 import defaultUser from "../../../public/defaultuser.png";
 
-const DropdownUser = () => {
+interface DropdownUserProps {
+  isAdmin: boolean;
+}
+
+const DropdownUser = ({ isAdmin }: DropdownUserProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,6 +37,11 @@ const DropdownUser = () => {
           <DropdownMenuItem>
             <Link href="/user/mybooking">My Booking</Link>
           </DropdownMenuItem>
+          {isAdmin && (
+            <DropdownMenuItem>
+              <Link href="/admin/tour/create">Create a tour</Link>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

@@ -33,7 +33,7 @@ const Navbar = async () => {
           </nav>
           <div className="flex items-center gap-6">
             {session?.user ? (
-              <DropdownUser />
+              <DropdownUser isAdmin={session?.user.isAdmin} />
             ) : (
               <>
                 <Link

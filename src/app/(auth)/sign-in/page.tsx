@@ -1,7 +1,16 @@
 import Link from "next/link";
 import SignInForm from "./SignInForm";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
-const SignInPage = () => {
+const SignInPage = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return redirect("/");
+  }
+
   return (
     <section className="flex flex-col my-14">
       <div className="w-[500px] mx-auto bg-white py-5 px-4 rounded-md">
