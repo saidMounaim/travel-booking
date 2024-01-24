@@ -32,7 +32,6 @@ const SignInForm = () => {
         password: values.password,
       });
       if (!result?.ok) {
-        console.log("first");
         toast({
           className: "bg-red-600 text-white text-md font-medium",
           title: "Email or Password Invalid",
@@ -43,7 +42,7 @@ const SignInForm = () => {
           className: "bg-green-600 text-md text-white font-medium",
           title: "User has been logged in successfully",
         });
-        router.push("/user/profile");
+        router.push("/");
         router.refresh();
       }
       console.log(result);

@@ -13,11 +13,10 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { signUpFormSchema, signUpFormValues } from "@/lib/validator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { signUpAction } from "../actions";
 
 const SignUpForm = () => {
-  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<signUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
@@ -25,6 +24,12 @@ const SignUpForm = () => {
 
   async function onSubmit(values: signUpFormValues) {
     try {
+      const { name, password, email, mobile } = values;
+      await signUpAction({ name, password, email, mobile });
+      toast({
+        className: "bg-green-600 text-white text-md font-medium",
+        title: "Your account has been created",
+      });
     } catch (error) {
       toast({
         className: "bg-red-600 text-white text-md font-medium",
