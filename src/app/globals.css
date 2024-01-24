@@ -2,32 +2,382 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer components {
+  body {
+    @apply bg-slate-50 pb-[65px] lg:pb-0 selection:bg-orange-500 selection:text-white;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  [class*="material"] {
+    @apply select-none;
   }
+
+  .container {
+    @apply px-5;
+  }
+
+  .header {
+    @apply h-14 lg:h-20 bg-white border-b border-gray-200;
+  }
+
+  .header .container {
+    @apply relative flex justify-between items-center h-full;
+  }
+
+  .header-logo {
+    @apply flex items-center text-lg lg:text-xl font-medium text-slate-500 select-none;
+  }
+
+  .header-logo-icon {
+    @apply mr-2 text-sky-500 text-2xl lg:text-4xl select-none;
+  }
+
+  .menu-toggle {
+    @apply lg:hidden text-slate-600 w-10 h-10 flex justify-center items-center cursor-pointer;
+  }
+
+  .header-menu {
+    @apply lg:py-0 py-8 lg:pt-0 pt-5 flex flex-col lg:flex-row lg:items-center lg:relative z-30 fixed top-[56px] lg:top-0 left-0 lg:bg-transparent bg-white lg:drop-shadow-none drop-shadow-xl h-[calc(100%-56px)] lg:h-auto transition-all lg:translate-x-0 -translate-x-[110%];
+  }
+
+  .menu-open {
+    @apply overflow-hidden;
+  }
+
+  .menu-open .header-menu {
+    @apply translate-x-0;
+  }
+
+  .header-menu-item {
+    @apply block py-3 w-60 lg:w-auto ml-0 lg:ml-6 text-sm text-center text-slate-500 hover:text-slate-900 transition-all;
+  }
+
+  .header-menu-copyright {
+    @apply mt-auto text-center text-xs lg:hidden block text-slate-400;
+  }
+
+  .header-menu-overlay {
+    @apply bg-slate-800 opacity-0 invisible fixed top-[56px] left-0 w-full h-[calc(100%-56px)] z-20 transition-all;
+  }
+
+  .menu-open .header-menu-overlay {
+    @apply opacity-50 visible;
+  }
+
+  /* header */
+
+  .tour-head {
+    @apply my-6 lg:my-12 lg:flex lg:justify-between lg:items-center;
+  }
+
+  .tour-title {
+    @apply text-xl lg:text-3xl text-slate-600 font-semibold;
+  }
+
+  .tour-overview {
+    @apply text-sm mt-4 flex text-slate-400;
+  }
+
+  .tour-overview span {
+    @apply text-slate-600 font-semibold;
+  }
+
+  .tour-overview-item {
+    @apply pr-6 relative first:before:hidden before:content-['•'] before:absolute before:text-slate-400 before:-top-[1px] before:-left-3.5 last:hidden lg:last:block text-xs lg:text-base;
+  }
+
+  .tour-overview-item [class*="material"] {
+    @apply text-yellow-400 text-sm h-[17px] leading-[17px] relative top-[1px];
+  }
+
+  .tour-hero {
+    @apply -mb-4 lg:mb-12 overflow-hidden rounded-lg;
+  }
+
+  .tour-image {
+    @apply bg-[url('/dist/images/tour-hero.jpeg')] bg-cover bg-center aspect-square md:aspect-video relative before:content-[''] before:absolute before:top-0 before:left-0 before:opacity-50 before:bg-gradient-to-r before:from-red-600 before:to-orange-400 before:rounded-lg before:w-full before:h-full;
+  }
+
+  .tour-wrapper {
+    @apply flex flex-wrap lg:flex-nowrap items-start;
+  }
+
+  .tour-content {
+    @apply w-full lg:w-7/12 2xl:w-2/3;
+  }
+
+  .tour-sidebar {
+    @apply w-full lg:w-5/12 2xl:w-1/3 lg:ml-8 relative lg:sticky top-8 z-20;
+  }
+
+  .tour-content-block {
+    @apply mt-10 first:mt-0 pb-10 border-b border-solid border-gray-200 last:border-0 last:p-0;
+  }
+
+  .tour-content-title {
+    @apply text-lg lg:text-2xl text-slate-600 font-semibold mb-6;
+  }
+
+  .tour-description {
+    @apply text-slate-500 text-sm lg:text-base;
+  }
+
+  .tour-places .swiper {
+    @apply select-none;
+  }
+
+  .tour-places .swiper-image img {
+    @apply rounded-md w-full;
+  }
+
+  .tour-places .swiper-title {
+    @apply mt-3 font-medium text-slate-600;
+  }
+
+  .tour-places [class*="swiper-button"] {
+    @apply w-10 h-10 bg-white after:text-base after:content-['next'] rounded-full text-slate-600 top-[45%];
+  }
+
+  .tour-places .swiper-button-prev {
+    @apply after:content-['prev'];
+  }
+
+  .tour-itinerary .accordion-panel {
+    @apply relative pl-12 before:content-['\f1e3'] first:before:content-['\e55f'] last:before:content-['\e153'] before:font-material before:absolute before:z-10 before:-top-[3px] lg:before:-top-[2px] before:left-0 before:w-8 before:h-8 before:leading-[2rem] before:bg-slate-200 before:rounded-full before:text-lg before:text-gray-400 first:before:bg-sky-500 first:before:text-white last:before:bg-red-500 last:before:text-white before:text-center after:bg-gray-200 after:w-px after:h-full after:absolute after:top-0 after:left-[16px] last:after:hidden;
+  }
+
+  .tour-itinerary .accordion-introduction {
+    @apply first:before:content-['\e88e'];
+  }
+
+  .tour-itinerary .accordion-start {
+    @apply before:content-['\e55f'] before:bg-green-500 before:text-white;
+  }
+
+  .tour-itinerary .accordion-panel.active {
+    @apply after:h-[calc(100%+2.5rem)];
+  }
+
+  .tour-itinerary .accordion-trigger {
+    @apply cursor-pointer pb-8 text-base lg:text-lg font-semibold text-slate-600 before:transition-all before:content-['\e145'] before:font-material before:absolute before:top-0 before:right-0 before:text-slate-400 before:opacity-0 hover:before:opacity-100;
+  }
+
+  .tour-itinerary .accordion-panel.active .accordion-trigger {
+    @apply p-0 before:opacity-100 before:content-['\e15b'];
+  }
+
+  .tour-itinerary .accordion-trigger span {
+    @apply text-slate-400 font-medium pointer-events-none transition-all;
+  }
+
+  .tour-itinerary .accordion-panel.active .accordion-trigger span,
+  .tour-itinerary .accordion-panel:hover .accordion-trigger span {
+    @apply text-slate-600;
+  }
+
+  .tour-itinerary .accordion-panel:last-child .accordion-trigger {
+    @apply pb-0;
+  }
+
+  .tour-itinerary .accordion-panel .accordion-content {
+    @apply hidden p-5 mt-8 mb-10 bg-white border border-solid border-gray-200 rounded-lg text-sm text-slate-500;
+  }
+
+  .tour-itinerary .accordion-panel.active .accordion-content {
+    @apply block;
+  }
+
+  .tour-itinerary .accordion-panel .accordion-content p {
+    @apply leading-6 mb-5 last:mb-0;
+  }
+
+  .tour-reviews {
+    @apply flex flex-col xl:flex-row;
+  }
+
+  .tour-reviews-overall {
+    @apply w-full xl:w-2/5 relative flex justify-center items-center text-center p-10 text-slate-500 border border-t-0 border-solid border-slate-200 xl:border-t-[1px] before:content-['\e885'] before:font-material before:absolute before:bottom-0 before:right-0 before:text-[250px] before:opacity-[0.05] before:w-full before:h-full before:flex before:justify-center before:items-center before:text-center before:pointer-events-none after:content-['\e838'] after:font-material after:absolute after:bottom-0 after:right-0 after:text-[250px] after:opacity-[0.075] after:w-full after:h-full after:flex after:justify-center after:items-center after:text-center after:pointer-events-none after:animate-ping overflow-hidden rounded-b-lg xl:rounded-lg bg-white xl:bg-transparent;
+  }
+
+  .tour-reviews-overall-rating {
+    @apply text-4xl lg:text-6xl font-semibold mt-6;
+  }
+
+  .tour-reviews-overall-title {
+    @apply text-xl lg:text-2xl font-semibold opacity-40;
+  }
+
+  .tour-reviews-overall-text {
+    @apply text-2xl lg:text-4xl font-semibold mt-5;
+  }
+
+  .tour-reviews-feedback {
+    @apply w-full xl:w-3/5 xl:mr-8 bg-white border border-solid border-gray-200 rounded-t-lg xl:rounded-lg;
+  }
+
+  .tour-reviews-feedback-item {
+    @apply flex justify-between items-center border-b border-solid border-gray-200 last:border-0 py-4 px-6 text-slate-600;
+  }
+
+  .tour-reviews-feedback-content {
+    @apply flex items-center;
+  }
+
+  .tour-reviews-feedback-icon span {
+    @apply mr-4 relative top-0.5 text-3xl text-sky-500;
+  }
+
+  .tour-reviews-feedback-title {
+    @apply font-semibold text-sm lg:text-base;
+  }
+
+  .tour-reviews-feedback-text {
+    @apply text-xs lg:text-sm text-gray-400;
+  }
+
+  .tour-reviews-feedback-rating {
+    @apply font-semibold w-10 h-10 lg:w-12 lg:h-12 leading-[2.5rem] lg:leading-[3rem] rounded-full bg-slate-200 text-gray-500 text-center text-sm lg:text-base;
+  }
+
+  .tour-receipt {
+    @apply bg-white border border-solid border-gray-200 rounded-lg p-8 2xl:p-10 mt-0;
+  }
+
+  .tour-receipt-head {
+    @apply flex justify-between items-center;
+  }
+
+  .tour-amount {
+    @apply text-2xl lg:text-3xl text-slate-600 font-bold;
+  }
+
+  .tour-amount span {
+    @apply text-xs lg:text-sm text-slate-400 font-normal mt-1;
+  }
+
+  span.tour-amount-old {
+    @apply text-2xl lg:text-3xl text-slate-600 font-medium line-through opacity-30 mr-1;
+  }
+
+  .tour-discount {
+    @apply bg-red-100 text-red-500 font-bold text-xs lg:text-sm rounded-lg px-2 py-2;
+  }
+
+  .tour-receipt-select {
+    @apply bg-slate-50 rounded-lg border border-solid border-slate-200 p-4 mt-7 lg:mt-10;
+  }
+
+  .tour-receipt-select-top {
+    @apply flex;
+  }
+
+  .tour-receipt-select-item {
+    @apply w-1/2 flex items-center;
+  }
+
+  .tour-receipt-select-icon {
+    @apply mr-3 text-slate-300 relative top-1;
+  }
+
+  .tour-receipt-select-title {
+    @apply text-slate-600 font-semibold;
+  }
+
+  .tour-receipt-select-text {
+    @apply text-xs text-slate-400;
+  }
+
+  .tour-receipt-select-top .tour-receipt-select-item {
+    @apply relative first:before:content-[''] first:before:bg-slate-200 first:before:w-px first:before:h-[calc(100%+32px)] first:before:absolute first:before:-top-4 before:right-0 last:pl-4 last:lg:pl-6 text-sm lg:text-base;
+  }
+
+  .tour-receipt-select-bottom {
+    @apply mt-4 pt-4 relative before:content-[''] before:bg-slate-200 before:w-[calc(100%+2rem)] before:h-px before:absolute before:top-0 before:-left-4 text-sm lg:text-base;
+  }
+
+  .tour-receipt-detail {
+    @apply mt-8 lg:mt-10 text-sm lg:text-base;
+  }
+
+  .tour-receipt-detail-item {
+    @apply flex justify-between pb-3 last:pb-0 lg:last:pb-3;
+  }
+
+  .tour-receipt-detail-title {
+    @apply text-slate-400;
+  }
+
+  .tour-receipt-detail-total {
+    @apply font-semibold pt-5 mt-2 border-t border-solid border-slate-200 text-slate-600;
+  }
+
+  .tour-receipt-detail-total .tour-receipt-detail-title {
+    @apply text-slate-600;
+  }
+
+  .tour-receipt-button {
+    @apply flex justify-between fixed lg:relative bottom-0 left-0 p-5 py-3 lg:p-0 lg:py-0 w-full lg:w-auto mt-6 bg-white border-t border-solid border-slate-200 lg:border-none;
+  }
+
+  .tour-favorite {
+    @apply w-[40px] h-[40px] lg:w-[48px] lg:h-[48px] flex justify-center items-center rounded-full bg-white border border-solid border-slate-200 hover:text-red-500 transition-all;
+  }
+
+  .tour-reserve {
+    @apply w-[calc(100%-56px)] lg:w-[calc(100%-64px)] bg-sky-500 hover:bg-sky-600 px-5 h-10 lg:h-12 text-sm leading-5 rounded-full font-semibold text-white transition-all pointer-events-auto lg:pointer-events-none cursor-pointer;
+  }
+
+  .tour-help {
+    @apply bg-[url('/dist/images/tour-hero.jpeg')] bg-cover bg-center rounded-lg;
+  }
+
+  .tour-help-inner {
+    @apply py-12 px-10 flex flex-col justify-between items-start 2xl:flex-row 2xl:items-center relative before:content-[''] before:absolute before:top-0 before:left-0 before:opacity-90 before:bg-gradient-to-r before:from-red-600 before:to-orange-400 before:rounded-lg before:w-full before:h-full;
+  }
+
+  .tour-help-content,
+  .tour-help-call {
+    @apply relative text-white;
+  }
+
+  .tour-help-content {
+    @apply w-full 2xl:w-[calc(100%-300px)];
+  }
+
+  .tour-help-title {
+    @apply text-xl lg:text-3xl font-semibold;
+  }
+
+  .tour-help-text {
+    @apply mt-5 opacity-95 text-sm lg:text-base;
+  }
+
+  .tour-help-call {
+    @apply flex items-center bg-white rounded-md px-4 py-3 lg:px-5 lg:py-4 mt-10 text-slate-600 font-medium tracking-wide 2xl:mt-0 cursor-pointer text-sm lg:text-base;
+  }
+
+  .tour-help-call [class*="material"] {
+    @apply mr-2 text-orange-300 transition-all;
+  }
+
+  .tour-help-call:hover [class*="material"] {
+    @apply text-orange-500;
+  }
+
+  .footer {
+    @apply mt-16 lg:mt-24 text-center lg:text-left text-sm text-white text-opacity-60 bg-gray-800;
+  }
+
+  .footer-inner {
+    @apply py-5 flex flex-col justify-between items-center lg:flex-row lg:items-start;
+  }
+
+  .footer-menu {
+    @apply mt-5 lg:mt-0;
+  }
+
+  .footer-menu-item {
+    @apply ml-4 lg:hover:text-white transition-all;
+  }
+
+  /* tour */
 }
