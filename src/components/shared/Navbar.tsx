@@ -1,6 +1,13 @@
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import DropdownUser from "./DropdownUser";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
+
   return (
     <header className="bg-white border py-4">
       <div className="max-w-7xl mx-auto">
@@ -25,15 +32,24 @@ const Navbar = () => {
             </ul>
           </nav>
           <div className="flex items-center gap-6">
-            <Link href="/sign-in" className="text-md text-gray-950 font-medium">
-              Sign In
-            </Link>
-            <Link
-              href="/sign-up"
-              className="bg-blue-700 text-md font-medium py-2 px-4 text-white rounded-md"
-            >
-              Sign Up
-            </Link>
+            {session?.user ? (
+              <DropdownUser />
+            ) : (
+              <>
+                <Link
+                  href="/sign-in"
+                  className="text-md text-gray-950 font-medium"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="bg-blue-700 text-md font-medium py-2 px-4 text-white rounded-md"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
