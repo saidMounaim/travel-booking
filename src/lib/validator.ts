@@ -15,3 +15,39 @@ export const signUpFormSchema = z.object({
 });
 
 export type signUpFormValues = z.infer<typeof signUpFormSchema>;
+
+const validImageFile = z
+  .custom<File | undefined>()
+  .refine((file) => file, "Image is required")
+  .refine(
+    (file) => !file || (file instanceof File && file.type.startsWith("image/")),
+    "Must be an image file"
+  )
+  .refine((file) => {
+    return !file || file.size < 1024 * 1024 * 2;
+  }, "File must be less than 2MB");
+
+export const galleryTourFormSchema = z.object({
+  galleryTour: z.array(
+    z.object({
+      titleGallery: z
+        .custom<string | undefined>()
+        .refine((str) => str, "Title of image is required"),
+      imageGallery: validImageFile,
+    })
+  ),
+});
+
+export const createTourFormSchema = z
+  .object({
+    title: z.string().min(1, "Title is required").max(300),
+    body: z.string().min(1, "Description is required"),
+    checkIn: z.date({ required_error: "Check In is required" }),
+    checkOut: z.date({ required_error: "Check Out is required" }),
+    guests: z.string().min(1),
+    pricePerNight: z.string().min(1),
+    feauturedImage: validImageFile,
+  })
+  .and(galleryTourFormSchema);
+
+export type createTourFormValues = z.infer<typeof createTourFormSchema>;

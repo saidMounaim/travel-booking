@@ -6,8 +6,6 @@ import DropdownUser from "./DropdownUser";
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
-
   return (
     <header className="bg-white border py-4">
       <div className="max-w-7xl mx-auto">
