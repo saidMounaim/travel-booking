@@ -1,5 +1,7 @@
+import { Tour } from "@prisma/client";
 import TourCard from "./TourCard";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 async function getTours() {
   const tours = await prisma.tour.findMany({});
@@ -8,8 +10,6 @@ async function getTours() {
 
 const FeaturedTours = async () => {
   const tours = await getTours();
-
-  console.log(tours);
 
   return (
     <section className="flex flex-col mt-11">
@@ -20,10 +20,11 @@ const FeaturedTours = async () => {
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-          <TourCard />
-          <TourCard />
-          <TourCard />
-          <TourCard />
+          {tours.slice(0, 4).map((tour: Tour) => (
+            <Link href={`/tour/${tour.slug}`} key={tour.id}>
+              <TourCard tour={tour} />
+            </Link>
+          ))}
         </div>
       </div>
     </section>

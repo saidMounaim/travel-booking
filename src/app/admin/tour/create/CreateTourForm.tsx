@@ -191,7 +191,7 @@ const CreateTourForm = () => {
           <h2 className="text-1xl font-bold mt-4">Gallery</h2>
           {galleryItems.map((imageSet, index) => (
             <>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" key={index}>
                 <div className="w-full">
                   <FormField
                     control={form.control}
