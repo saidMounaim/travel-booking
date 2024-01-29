@@ -30,8 +30,13 @@ const validImageFile = z
 export const createTourFormSchema = z.object({
   title: z.string().min(1, "Title is required").max(300),
   body: z.string().min(1, "Description is required"),
+<<<<<<< HEAD
   checkIn: z.coerce.date(),
   checkOut: z.coerce.date(),
+=======
+  checkIn: z.date({ required_error: "Check In is required" }),
+  checkOut: z.date({ required_error: "Check Out is required" }),
+>>>>>>> c568ff34843962cef4d804fd1a23bfedcc83feb1
   guests: z.string().min(1),
   pricePerNight: z.string().min(1),
   feauturedImage: validImageFile,
@@ -44,4 +49,8 @@ export const createTourFormSchema = z.object({
     })
   ),
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> c568ff34843962cef4d804fd1a23bfedcc83feb1
 export type createTourFormValues = z.infer<typeof createTourFormSchema>;
