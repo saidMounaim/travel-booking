@@ -1,6 +1,16 @@
 import TourCard from "./TourCard";
+import prisma from "@/lib/prisma";
 
-const FeaturedTours = () => {
+async function getTours() {
+  const tours = await prisma.tour.findMany({});
+  return tours;
+}
+
+const FeaturedTours = async () => {
+  const tours = await getTours();
+
+  console.log(tours);
+
   return (
     <section className="flex flex-col mt-11">
       <div className="max-w-5xl mx-auto">
