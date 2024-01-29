@@ -19,8 +19,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { draftToMarkdown } from "markdown-draft-js";
+import { useToast } from "@/components/ui/use-toast";
+import { createTour } from "../actions";
 
 const CreateTourForm = () => {
+  const { toast } = useToast();
+
   const form = useForm<createTourFormValues>({
     resolver: zodResolver(createTourFormSchema),
   });
@@ -34,12 +38,56 @@ const CreateTourForm = () => {
   };
 
   async function onSubmit(values: createTourFormValues) {
-    console.log("Data", values);
+    let tourImage: any = "";
+    let tourImages: any = [];
+
+    if (values.feauturedImage) {
+      const res = await fetch("/api/tour/featured/upload", {
+        method: "POST",
+        body: values.feauturedImage,
+      });
+      tourImage = await res.json();
+    }
+
+    if (values.galleryTour) {
+      const formData = new FormData();
+
+      values.galleryTour.forEach((item: any) => {
+        formData.append("titleGallery", item.titleGallery);
+        formData.append("imageGallery", item.imageGallery);
+      });
+
+      const res = await fetch("/api/tour/images/upload", {
+        method: "POST",
+        body: formData,
+      });
+      tourImages = await res.json();
+    }
+
+    try {
+      await createTour({
+        tour: {
+          ...values,
+          feauturedImage: tourImage.url.toString(),
+          galleryTour: tourImages,
+        },
+      });
+      toast({
+        className: "bg-green-600 text-white font-semiBold",
+        description: "Tour created successfully",
+      });
+    } catch (error) {
+      toast({
+        className: "bg-red-600 text-white font-semiBold",
+        description: "Something went wrong, please try again.",
+      });
+    }
   }
 
   return (
     <Form {...form}>
       <form
+        encType="multipart/form-data"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
         noValidate

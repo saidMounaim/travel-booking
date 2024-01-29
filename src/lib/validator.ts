@@ -27,7 +27,14 @@ const validImageFile = z
     return !file || file.size < 1024 * 1024 * 2;
   }, "File must be less than 2MB");
 
-export const galleryTourFormSchema = z.object({
+export const createTourFormSchema = z.object({
+  title: z.string().min(1, "Title is required").max(300),
+  body: z.string().min(1, "Description is required"),
+  checkIn: z.coerce.date(),
+  checkOut: z.coerce.date(),
+  guests: z.string().min(1),
+  pricePerNight: z.string().min(1),
+  feauturedImage: validImageFile,
   galleryTour: z.array(
     z.object({
       titleGallery: z
@@ -37,17 +44,4 @@ export const galleryTourFormSchema = z.object({
     })
   ),
 });
-
-export const createTourFormSchema = z
-  .object({
-    title: z.string().min(1, "Title is required").max(300),
-    body: z.string().min(1, "Description is required"),
-    checkIn: z.date({ required_error: "Check In is required" }),
-    checkOut: z.date({ required_error: "Check Out is required" }),
-    guests: z.string().min(1),
-    pricePerNight: z.string().min(1),
-    feauturedImage: validImageFile,
-  })
-  .and(galleryTourFormSchema);
-
 export type createTourFormValues = z.infer<typeof createTourFormSchema>;
