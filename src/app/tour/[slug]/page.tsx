@@ -10,6 +10,8 @@ import { calculateNights, calculateTotalPrice, formatDate } from "@/lib/utils";
 import { CalendarDays, UserRound } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Places from "./Places";
+import Price from "./Price";
 
 interface TourDetailsProps {
   params: {
@@ -67,37 +69,7 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
             <Markdown>{tour.body}</Markdown>
           </div>
           <div className="block w-full h-[1px] bg-slate-800 opacity-15 mt-11"></div>
-          <div className="w-full mt-10">
-            <h2 className="text-2xl font-bold text-muted-foreground">
-              Places You’ll See
-            </h2>
-            <Carousel
-              opts={{
-                align: "start",
-              }}
-              className="w-full mt-6"
-            >
-              <CarouselContent>
-                {tour.gallery.map((g) => (
-                  <>
-                    <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                      <div className="h-[280px] relative">
-                        <Image
-                          src={g.image}
-                          alt={g.title}
-                          className="object-cover rounded-md"
-                          fill
-                        />
-                      </div>
-                      <h3 className="text-muted-foreground font-medium text-1xl mt-2">
-                        {g.title}
-                      </h3>
-                    </CarouselItem>
-                  </>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </div>
+          <Places gallery={tour.gallery} />
         </div>
         <div className="flex flex-col">
           <div className="bg-white p-7 rounded-md border">
@@ -134,35 +106,11 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-between mt-7 text-lg text-muted-foreground">
-              <h3>
-                ${tour.pricePerNight} x{" "}
-                {calculateNights(tour.checkIn, tour.checkOut)} nights
-              </h3>
-              <h3>
-                $
-                {calculateTotalPrice(
-                  tour.checkIn,
-                  tour.checkOut,
-                  tour.pricePerNight
-                )}
-              </h3>
-            </div>
-            <div className="flex items-center justify-between mt-2 text-lg text-muted-foreground">
-              <h3>Service fee</h3>
-              <h3>$0</h3>
-            </div>
-            <div className="flex items-center justify-between mt-5 text-lg text-muted-foreground">
-              <h3>Total</h3>
-              <h3>
-                $
-                {calculateTotalPrice(
-                  tour.checkIn,
-                  tour.checkOut,
-                  tour.pricePerNight
-                )}
-              </h3>
-            </div>
+            <Price
+              pricePerNight={tour.pricePerNight}
+              checkIn={tour.checkIn}
+              checkOut={tour.checkOut}
+            />
             <div className="block mt-11">
               <Button className="w-full">Book now</Button>
             </div>
