@@ -23,6 +23,7 @@
     "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
     "draft-js": "^0.11.7",
+    "embla-carousel-react": "^8.0.0-rc21",
     "lucide-react": "^0.314.0",
     "markdown-draft-js": "^2.4.0",
     "nanoid": "^5.0.4",
@@ -33,6 +34,7 @@
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
     "react-hook-form": "^7.49.3",
+    "react-markdown": "^9.0.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

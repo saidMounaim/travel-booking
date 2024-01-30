@@ -11,3 +11,57 @@ export function toSlug(str: string) {
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
 }
+
+export function formatDate(dateString: any) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+
+  const formattedDay = day < 10 ? `0${day}` : `${day}`;
+
+  return `${formattedDay} ${month}`;
+}
+
+export function calculateNights(checkInDate: any, checkOutDate: any) {
+  const oneDay = 24 * 60 * 60 * 1000;
+  const checkInTime = new Date(checkInDate).getTime();
+  const checkOutTime = new Date(checkOutDate).getTime();
+
+  const differenceDays = Math.round(
+    Math.abs((checkOutTime - checkInTime) / oneDay)
+  );
+
+  return differenceDays;
+}
+
+export function calculateTotalPrice(
+  checkInDate: any,
+  checkOutDate: any,
+  nightlyRate: any
+) {
+  const oneDay = 24 * 60 * 60 * 1000;
+  const checkInTime = new Date(checkInDate).getTime();
+  const checkOutTime = new Date(checkOutDate).getTime();
+
+  const differenceDays = Math.round(
+    Math.abs((checkOutTime - checkInTime) / oneDay)
+  );
+  const totalPrice = differenceDays * nightlyRate;
+
+  return totalPrice;
+}

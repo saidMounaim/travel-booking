@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
       const filename = `${nanoid(10)}${contentType.split("/")[1]}`;
 
-      const blob = await put(filename, gallery, {
+      const blob = await put(filename, gallery.imageGallery, {
         contentType,
         access: "public",
         addRandomSuffix: false,
