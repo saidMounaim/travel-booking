@@ -9,6 +9,8 @@ import Places from "./Places";
 import Price from "./Price";
 import Review from "@/components/shared/Review";
 import ReviewCard from "@/components/shared/ReviewCard";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 interface TourDetailsProps {
   params: {
@@ -42,6 +44,7 @@ async function getTour(slug: string) {
           comment: true,
           user: {
             select: {
+              id: true,
               name: true,
             },
           },
@@ -53,6 +56,8 @@ async function getTour(slug: string) {
 }
 
 const TourDetails = async ({ params }: TourDetailsProps) => {
+  const session = await getServerSession(authOptions);
+
   const tour = await getTour(params.slug);
 
   if (!tour) {
@@ -140,6 +145,8 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
                   rating={review.rating}
                   name={review.user.name}
                   comment={review.comment}
+                  userId={review.user.id}
+                  currentUserId={session?.user?.id}
                 />
               ))}
             </div>
