@@ -141,6 +141,7 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
             <div className="flex flex-col mt-11 gap-8">
               {tour?.reviews.map((review) => (
                 <ReviewCard
+                  reviewId={review.id}
                   key={review.id}
                   rating={review.rating}
                   name={review.user.name}

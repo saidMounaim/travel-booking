@@ -36,3 +36,31 @@ export async function addReview({
 
   revalidatePath(path);
 }
+
+interface deleteReviewProps {
+  userId: number;
+  reviewId: number;
+  path: string;
+}
+
+export async function deleteReview({
+  userId,
+  reviewId,
+  path,
+}: deleteReviewProps) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || session?.user?.id !== userId) {
+    redirect("/");
+  }
+
+  const review = await prisma.review.findFirst({ where: { id: reviewId } });
+
+  if (!review) {
+    throw new Error("Review not found");
+  }
+
+  await prisma.review.delete({ where: { id: review?.id } });
+
+  revalidatePath(path);
+}

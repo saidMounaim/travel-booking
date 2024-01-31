@@ -3,8 +3,12 @@
 import Image from "next/image";
 import defaultUser from "../../../public/defaultuser.png";
 import FormSubmitButton from "./FormSubmitButton";
+import { useToast } from "../ui/use-toast";
+import { deleteReview } from "@/app/tour/actions";
+import { usePathname } from "next/navigation";
 
 interface ReviewCardProps {
+  reviewId: number;
   rating: number;
   name: string;
   comment: string;
@@ -13,12 +17,34 @@ interface ReviewCardProps {
 }
 
 const ReviewCard = ({
+  reviewId,
   rating,
   name,
   comment,
   userId,
   currentUserId,
 }: ReviewCardProps) => {
+  const { toast } = useToast();
+  const path = usePathname();
+
+  const handleDeleteReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (confirm("Are u sure ?")) {
+        await deleteReview({ userId, reviewId, path });
+        toast({
+          className: "bg-green-600 text-white font-semiBold",
+          description: "Review deleted successfully.",
+        });
+      }
+    } catch (error) {
+      toast({
+        className: "bg-red-600 text-white font-semiBold",
+        description: "Something went wrong, please try again.",
+      });
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
       <Image
@@ -42,7 +68,7 @@ const ReviewCard = ({
             <p>{comment}</p>
           </div>
           {userId === currentUserId && (
-            <form>
+            <form onSubmit={handleDeleteReview}>
               <FormSubmitButton className="bg-red-600 text-white hover:bg-red-700">
                 Delete
               </FormSubmitButton>
