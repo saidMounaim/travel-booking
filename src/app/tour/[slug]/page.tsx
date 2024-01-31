@@ -12,6 +12,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Places from "./Places";
 import Price from "./Price";
+import Review from "@/components/shared/Review";
 
 interface TourDetailsProps {
   params: {
@@ -115,6 +116,15 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
               <Button className="w-full">Book now</Button>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="flex flex-col mt-11">
+        <h2 className="text-2xl font-bold text-muted-foreground">
+          Customer Reviews
+        </h2>
+
+        <div className="flex flex-col mt-11">
+          <Review />
         </div>
       </div>
     </main>
