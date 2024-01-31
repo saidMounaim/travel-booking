@@ -1,18 +1,14 @@
 import Markdown from "@/components/shared/Markdown";
 import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import prisma from "@/lib/prisma";
-import { calculateNights, calculateTotalPrice, formatDate } from "@/lib/utils";
-import { CalendarDays, UserRound } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+import { CalendarDays, Star, UserRound } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Places from "./Places";
 import Price from "./Price";
 import Review from "@/components/shared/Review";
+import ReviewCard from "@/components/shared/ReviewCard";
 
 interface TourDetailsProps {
   params: {
@@ -37,6 +33,18 @@ async function getTour(slug: string) {
           id: true,
           title: true,
           image: true,
+        },
+      },
+      reviews: {
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       },
     },
@@ -123,8 +131,23 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
           Customer Reviews
         </h2>
 
+        {tour?.reviews.length > 0 && (
+          <>
+            <div className="flex flex-col mt-11 gap-8">
+              {tour?.reviews.map((review) => (
+                <ReviewCard
+                  key={review.id}
+                  rating={review.rating}
+                  name={review.user.name}
+                  comment={review.comment}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
         <div className="flex flex-col mt-11">
-          <Review />
+          <Review tourId={tour.id} />
         </div>
       </div>
     </main>

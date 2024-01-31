@@ -5,6 +5,8 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import FormSubmitButton from "./FormSubmitButton";
 import { useToast } from "../ui/use-toast";
+import { usePathname } from "next/navigation";
+import { addReview } from "@/app/tour/actions";
 
 function getRating(rating: number) {
   switch (rating) {
@@ -23,14 +25,21 @@ function getRating(rating: number) {
   }
 }
 
-const Review = () => {
+interface ReviewProps {
+  tourId: number;
+}
+
+const Review = ({ tourId }: ReviewProps) => {
   const { toast } = useToast();
   const [rating, setRating] = useState(3);
   const [hoveredRating, setHoveredRating] = useState(0);
 
   const [comment, setComment] = useState("");
 
-  const handleComment = () => {
+  const path = usePathname();
+
+  const handleComment = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       if (!rating || comment === "") {
         toast({
@@ -38,6 +47,13 @@ const Review = () => {
           description: "Rating & Comment are required",
         });
       } else {
+        await addReview({ tourId, rating, comment, path });
+        setRating(0);
+        setComment("");
+        toast({
+          className: "bg-green-600 text-white font-semiBold",
+          description: "Review added successfully.",
+        });
       }
     } catch (error) {
       toast({
@@ -71,7 +87,12 @@ const Review = () => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
-        <FormSubmitButton className="w-fit">Add Review</FormSubmitButton>
+        <FormSubmitButton
+          className="w-fit"
+          disabled={!rating || comment === ""}
+        >
+          Add Review
+        </FormSubmitButton>
       </form>
     </div>
   );
