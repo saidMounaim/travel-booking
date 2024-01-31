@@ -2,7 +2,7 @@ import Markdown from "@/components/shared/Markdown";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
-import { CalendarDays, Star, UserRound } from "lucide-react";
+import { AlertTriangle, CalendarDays, UserRound } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Places from "./Places";
@@ -11,6 +11,7 @@ import Review from "@/components/shared/Review";
 import ReviewCard from "@/components/shared/ReviewCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface TourDetailsProps {
   params: {
@@ -155,7 +156,16 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
         )}
 
         <div className="flex flex-col mt-11">
-          <Review tourId={tour.id} />
+          {session ? (
+            <Review tourId={tour.id} />
+          ) : (
+            <Alert className="w-96" variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription>
+                Please sign in to post a review.
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
       </div>
     </main>
