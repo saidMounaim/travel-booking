@@ -65,3 +65,14 @@ export function calculateTotalPrice(
 
   return totalPrice;
 }
+
+export function calculateAverageRating(ratings: any) {
+  if (ratings.length === 0) {
+    return 0;
+  }
+
+  const sum = ratings.reduce((total: any, r: any) => total + r.rating, 0);
+  const average = sum / ratings.length;
+
+  return average;
+}

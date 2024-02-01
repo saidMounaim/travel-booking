@@ -13,7 +13,10 @@ export async function deleteMyBooking(formData: FormData) {
 
   const session = await getServerSession(authOptions);
 
-  if (!session || session?.user.id !== Number(userId)) {
+  if (
+    !session ||
+    (session.user.id !== Number(userId) && !session.user.isAdmin)
+  ) {
     redirect("/");
   }
 

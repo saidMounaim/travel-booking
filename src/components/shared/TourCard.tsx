@@ -1,10 +1,18 @@
 import Image from "next/image";
-import tourBg from "../../../public/capadocia.jpg";
 import { StarIcon } from "lucide-react";
 import { Tour } from "@prisma/client";
+import { calculateAverageRating } from "@/lib/utils";
 
-interface TourCardProps {
-  tour: Tour;
+export interface TourCardProps {
+  tour: {
+    id: number;
+    title: string;
+    slug: string;
+    feauturedImage: string;
+    reviews: {
+      rating: number;
+    }[];
+  };
 }
 
 const TourCard = ({ tour }: TourCardProps) => {
@@ -23,7 +31,7 @@ const TourCard = ({ tour }: TourCardProps) => {
         {tour.title}
         <span className=" flex items-center gap-1 mt-2 text-sm">
           <StarIcon size={20} fill="#F3B95F" stroke="" />
-          4.5
+          {calculateAverageRating(tour.reviews)}
         </span>
       </div>
     </article>
