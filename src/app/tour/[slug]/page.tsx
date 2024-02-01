@@ -12,6 +12,7 @@ import ReviewCard from "@/components/shared/ReviewCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import BookTourForm from "./BookTourForm";
 
 interface TourDetailsProps {
   params: {
@@ -126,9 +127,22 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
               checkIn={tour.checkIn}
               checkOut={tour.checkOut}
             />
-            <div className="block mt-11">
-              <Button className="w-full">Book now</Button>
-            </div>
+            {session ? (
+              <div className="block mt-11 p-4 bg-gray-100 rounded-md">
+                <div className="flex flex-col">
+                  <h2 className="text-2xl font-bold">Book Tour</h2>
+                </div>
+
+                <BookTourForm />
+              </div>
+            ) : (
+              <Alert className="w-full mt-5" variant="destructive">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>
+                  Please sign in to book a tour.
+                </AlertDescription>
+              </Alert>
+            )}
           </div>
         </div>
       </div>
