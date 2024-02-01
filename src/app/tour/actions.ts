@@ -64,3 +64,36 @@ export async function deleteReview({
 
   revalidatePath(path);
 }
+
+interface bookTourProps {
+  tourId: number;
+  name: string;
+  email: string;
+  mobile: string;
+  path: string;
+}
+
+export async function bookTour({
+  tourId,
+  path,
+  name,
+  email,
+  mobile,
+}: bookTourProps) {
+  const tour = await prisma.tour.findFirst({ where: { id: tourId } });
+
+  if (!tour) {
+    throw new Error("Tour not found");
+  }
+
+  await prisma.reservation.create({
+    data: {
+      tourId,
+      name,
+      email,
+      mobile,
+    },
+  });
+
+  redirect(path);
+}

@@ -133,7 +133,7 @@ const TourDetails = async ({ params }: TourDetailsProps) => {
                   <h2 className="text-2xl font-bold">Book Tour</h2>
                 </div>
 
-                <BookTourForm />
+                <BookTourForm tourId={tour.id} />
               </div>
             ) : (
               <Alert className="w-full mt-5" variant="destructive">

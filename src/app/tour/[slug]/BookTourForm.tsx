@@ -14,15 +14,36 @@ import { useToast } from "@/components/ui/use-toast";
 import { bookTourFormSchema, bookTourFormValues } from "@/lib/validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { bookTour } from "../actions";
+import { usePathname, useRouter } from "next/navigation";
 
-const BookTourForm = () => {
+interface BookTourFormProps {
+  tourId: number;
+}
+
+const BookTourForm = ({ tourId }: BookTourFormProps) => {
   const { toast } = useToast();
+  const path = usePathname();
+  const router = useRouter();
 
   const form = useForm<bookTourFormValues>({
     resolver: zodResolver(bookTourFormSchema),
   });
 
-  async function onSubmit(values: bookTourFormValues) {}
+  async function onSubmit({ name, email, mobile }: bookTourFormValues) {
+    try {
+      await bookTour({ tourId, name, email, mobile, path });
+      toast({
+        className: "bg-green-600 text-white font-semiBold",
+        description: "You booked the tour successfully.",
+      });
+    } catch (error) {
+      toast({
+        className: "bg-red-600 text-white font-semiBold",
+        description: "Something went wrong, please try again.",
+      });
+    }
+  }
 
   return (
     <Form {...form}>
