@@ -20,6 +20,7 @@ model User {
   isAdmin Boolean
   tours Tour[]
   reviews Review[]
+  reservation Reservation[]
 
   createdAt DateTime @default(now())
 }
@@ -42,7 +43,6 @@ model Tour {
   userId Int
 
   createdAt DateTime @default(now())
-
 }
 
 model Gallery {
@@ -74,4 +74,7 @@ model Reservation {
 
   tour Tour @relation(fields: [tourId], references: [id], onDelete: Cascade)
   tourId Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
 }

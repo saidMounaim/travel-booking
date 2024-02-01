@@ -15,7 +15,7 @@ import { bookTourFormSchema, bookTourFormValues } from "@/lib/validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { bookTour } from "../actions";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface BookTourFormProps {
   tourId: number;
@@ -24,10 +24,14 @@ interface BookTourFormProps {
 const BookTourForm = ({ tourId }: BookTourFormProps) => {
   const { toast } = useToast();
   const path = usePathname();
-  const router = useRouter();
 
   const form = useForm<bookTourFormValues>({
     resolver: zodResolver(bookTourFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      mobile: "",
+    },
   });
 
   async function onSubmit({ name, email, mobile }: bookTourFormValues) {
@@ -37,6 +41,7 @@ const BookTourForm = ({ tourId }: BookTourFormProps) => {
         className: "bg-green-600 text-white font-semiBold",
         description: "You booked the tour successfully.",
       });
+      form.reset();
     } catch (error) {
       toast({
         className: "bg-red-600 text-white font-semiBold",

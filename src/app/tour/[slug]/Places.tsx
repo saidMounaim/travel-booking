@@ -28,7 +28,7 @@ const Places = ({ gallery }: PlacesProps) => {
         <CarouselContent>
           {gallery.map((g) => (
             <>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/3">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={g.id}>
                 <div className="h-[280px] relative">
                   <Image
                     src={g.image}

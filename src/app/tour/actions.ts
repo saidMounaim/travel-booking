@@ -80,6 +80,12 @@ export async function bookTour({
   email,
   mobile,
 }: bookTourProps) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/");
+  }
+
   const tour = await prisma.tour.findFirst({ where: { id: tourId } });
 
   if (!tour) {
@@ -92,6 +98,7 @@ export async function bookTour({
       name,
       email,
       mobile,
+      userId: session?.user.id,
     },
   });
 
